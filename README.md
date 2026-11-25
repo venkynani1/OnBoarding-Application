@@ -7,8 +7,8 @@ Goodie distribution for newly onboarded employees — same desk flow as the Gen 
 - **/collect** — what the QR opens. Participant enters their employee ID; if they're on the list they see **"Collection pending"** and join the desk queue; the phone flips to **Collected** when the desk taps it.
 
 ## Setup
-1. Run `db/schema.sql` on the database, and create a login role `onboard_app` with access to schema `onboard` only.
-2. Environment variables (see `.env.example`): `DATABASE_URL`, `ADMIN_PASSWORD`, `SESSION_SECRET`.
-3. `npm install && npm run build`.
+1. Connect a Neon database to the Vercel project (Storage tab). It adds `NEON_DATABASE_URL` etc.
+2. Add `ADMIN_PASSWORD` and `SESSION_SECRET` (see `.env.example`).
+3. Deploy. Every build runs `scripts/migrate.mjs`, which creates the tables from `db/schema.sql` (safe to re-run).
 
-Database: its own Supabase project (`onboard-goodies`, Mumbai). Hosting: Vercel project `onboard-goodies` (region bom1).
+Hosting: Vercel project `on-boarding-application` (region bom1) with its own Neon database.

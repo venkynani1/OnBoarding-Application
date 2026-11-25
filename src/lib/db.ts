@@ -2,11 +2,11 @@ import pg from 'pg';
 
 let pool: pg.Pool | null = null;
 
-/** Shared connection pool. DATABASE_URL points at the Supabase transaction pooler as the onboard_app role. */
+/** Shared connection pool. Uses the Neon database connected in Vercel (NEON_DATABASE_URL, pooled). */
 export function db(): pg.Pool {
   if (pool) return pool;
-  const raw = process.env.DATABASE_URL;
-  if (!raw) throw new Error('DATABASE_URL is not set');
+  const raw = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL;
+  if (!raw) throw new Error('NEON_DATABASE_URL is not set');
   const url = new URL(raw);
   const local = process.env.DB_SSL === 'off' || ['localhost', '127.0.0.1'].includes(url.hostname) || url.hostname.startsWith('/');
   url.searchParams.delete('sslmode');
